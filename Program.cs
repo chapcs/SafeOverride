@@ -2,7 +2,11 @@
 {
     private static void Main(string[] args)
     {
-        Console.WriteLine("Hello, World!");
+        SafeOwner owner = new SafeOwner();
+        Safe safe = new Safe();
+        JewelThief jewelThief = new JewelThief();
+        jewelThief.OpenSafe(safe, owner);
+        Console.ReadKey(true);
     }
 }
 
@@ -40,7 +44,7 @@ class Locksmith
         ReturnContents(safeContents, owner);
     }
     public string Combination { private get; set; }
-    protected void ReturnContents(string safeContents, SafeOwner owner)
+    protected virtual void ReturnContents(string safeContents, SafeOwner owner)
     {
         owner.ReceiveContents(safeContents);
     }
@@ -49,7 +53,7 @@ class Locksmith
 class JewelThief : Locksmith
 {
     private string stolenJewels;
-    protected void ReturnContents (string safeContents, SafeOwner owner)
+    protected override void ReturnContents (string safeContents, SafeOwner owner)
     {
         stolenJewels = safeContents;
         Console.WriteLine($"I'm stealing the jewels! I stole: {stolenJewels}");
